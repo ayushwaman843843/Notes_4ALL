@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <script src="login,signup.js"></script>
+    <script src="downloads.js"></script>
+    <title>Calculus Study Material</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+        .hero {
+            height: 100vh;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 2%;
+            padding-right: 2%;
+            background-color: rgba(0, 0, 0, 0.5);
+            margin-bottom: 15px;
+        }
+        span {
+            color: violet;
+        }
+        video {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .mainbar ul li {
+            list-style-type: none;
+            display: inline-block;
+            padding: 10px 5px;
+        }
+        .mainbar ul li a {
+            font-size: 17px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            background-color: rgba(59, 25, 194, 0.7);
+            transition: background-color 0.3s;
+            padding: 12px;
+            border-radius: 15px;
+            border: 1px solid white;
+            font-family:Verdana, Geneva, Tahoma, sans-serif;
+        }
+        .mainbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+            color: rgb(59, 25, 194);
+            border: 2px solid rgb(59, 25, 194);
+        }
+        .navmenu{
+            cursor: pointer;
+            position: relative;
+            align-items: center;
+            background-color: gainsboro; 
+            border-radius: 10px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            border: 2px solid gainsboro;
+            transition: transform 0.3s ease;
+        }
+        .navmenu p{
+            font-weight: 1100;
+            color: black;
+            padding-left: 5px;
+            padding-bottom: 2px;
+        }
+        .sidebar {
+            position: fixed;
+            right: -350px; /* Initially hidden off-screen */
+            top: 0;
+            width: 350px; /* Default width */
+            height: 100%;
+            background: linear-gradient(135deg, #6a5acd, #00bfff); /* Gradient background */
+            color: white;
+            transition: right 0.3s ease;
+            padding-top: 30px;
+            z-index: 9;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Soft shadow for depth */
+        }
+
+        /* Hover effects for sidebar links */
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            border-radius: 10px;
+            padding: 15px;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth background and transform */
+        }
+
+        .sidebar ul li:hover {
+            background-color: rgba(255, 255, 255, 0.1); /* Light background on hover */
+            transform: translateX(5px); /* Slide effect on hover */
+        }
+
+        .sidebar ul li a {
+            font-family: 'Poppins',sans-serif;
+            border-radius: 10px;
+            font-size: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease; /* Smooth color transition */
+        }
+
+        .sidebar ul li a:hover {
+            color: #ff7f50; /* Change text color to coral on hover */
+            text-shadow: 0 0 5px rgba(255, 127, 80, 0.9); /* Text shadow for a glowing effect */
+        }
+
+        /* Sidebar open class */
+        .sidebar.open {
+            right: 0; /* Show sidebar */
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px; /* Reduced width on smaller screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 150px; /* Further reduced width on very small screens */
+            }
+        }
+
+        .sidebar ul li a:hover {
+            color: lightgray;
+        }
+
+        /* Sidebar open class */
+        .sidebar.open {
+            right: 0;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+            display: none; /* Initially hidden */
+            z-index: 8; /* Below the sidebar but above other content */
+        }
+
+        /* When the sidebar is open, show the overlay */
+        .sidebar.open + .overlay {
+            display: block; /* Show overlay when sidebar is open */
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+            display: none; /* Initially hidden */
+            z-index: 8; /* Below the sidebar but above other content */
+        }
+
+        /* When the sidebar is open, show the overlay */
+        .sidebar.open + .overlay {
+            display: block; /* Show overlay when sidebar is open */
+        }
+        .profile {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 10px;
+        }
+
+        .profile-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid white;
+        }
+
+        .username {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+        #edit-icon {
+            font-size: 20px; /* Adjust size as needed */
+            vertical-align: middle; /* Align with text */
+        }
+        .papermarket{
+            
+            object-fit: cover;
+            background-color: transparent;
+            margin-top: -15px;
+            margin-bottom: -30px;
+            min-height:660px ;
+            background-color: wheat;
+        }
+        .headersearch {
+            opacity: 0.8;
+            background-color: rgb(59, 25, 194);
+            color: #fff;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .headersearch h1 {
+            margin-top: 0;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .headersearch p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Search Bar Styling */
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin: 1.5rem auto;
+            max-width: 800px;
+        }
+
+        .search-bar input[type="text"] {
+            width: 70%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .search-bar button {
+            padding: 0.75rem;
+            font-size: 1rem;
+            background-color: rgb(59, 25, 194);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 0 5px 5px 0;
+            transition: background-color 0.3s;
+        }
+
+        .search-bar button:hover {
+            background-color: rgba(59, 25, 194, 0.7);
+        }
+
+        /* Filter Section Styling */
+        .filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem auto;
+        }
+
+        .filters select {
+            width: 200px;
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 2px solid black;
+            background-color: #fff;
+        }
+
+        /* Container for Papers */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 2rem;
+            gap: 2rem; /* Adjust spacing between cards */
+        }
+
+        /* Paper Card Styling */
+        .paper-card {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            width: 220px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .paper-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .paper-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 0.75rem;
+        }
+
+        .paper-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .paper-card p {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 0.5rem;
+        }
+
+        .paper-card .button {
+            padding: 0.5rem;
+            background-color: rgb(59, 25, 194);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+
+        .paper-card .button:hover {
+            background-color:rgb(59, 25, 194);
+        }
+        button {
+            background-color: transparent;
+            border: 2px solid white;
+            padding: 10px 0px;
+            border-radius: 15px;
+            color: white;
+            cursor: pointer;
+        }
+        .chatbotbutton{
+            position: fixed;
+            top: 92%;
+            right: 5px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .chatbotbutton:hover{
+            transform: scale(1.1);
+        }
+        .chatbotbutton span{
+            position: absolute;
+            top: 20%;
+            right: 7px;
+            font-size: 35px;
+        }
+    </style>
+
+</head>
+<body>
+    <video src="media/homepagevidbg.mp4" autoplay loop muted></video>
+    <div id="chat" class="chatbot">
+        <header>
+            <h2>Chatbot</h2>
+        </header>
+        <ul class="chatbox">
+            <li class="chat incoming">
+                <span class="material-symbols-outlined">smart_toy</span>
+                <p>Hi, how are you? 👋<br> How may I help you?</p>
+            </li>
+        </ul>
+        <div class="chat-input">
+            <textarea placeholder="Enter a message...." required></textarea>
+            <span class="material-symbols-outlined">send</span>
+        </div>
+    </div>
+    <div class="hero">
+        <nav>
+            <h2 class="logo" style="color: lightblue; font-size: 30px; font-family:Verdana, Geneva, Tahoma, sans-serif; letter-spacing: 2px;">
+                Notes <span style="font-family:Verdana, Geneva, Tahoma, sans-serif;">4ALL</span>
+            </h2>
+            <div class="mainbar">
+                <ul>
+                    <li><a href="index.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                    <li><a href="tt.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TimeTable&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                    <li><a href="examtt.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exam TT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                    <li><a href="attendance.html">&nbsp;&nbsp;&nbsp;Attendance Calc&nbsp;&nbsp;&nbsp;</a></li>
+                    <li><a href="todolist.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To-Do List&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                    <li><a href="contact.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contact&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                </ul>
+            </div>
+            <button class="navmenu" onclick="toggleSidebar()">
+                <p style="font-size: 40px;">☰</p>
+            </button>
+            <div class="sidebar">
+                <div class="profile">
+                    <img src="profile-placeholder.png" alt="Profile Image" class="profile-img" id="profile-image">
+                    <span class="username">Username</span> <!-- Placeholder for now -->
+                    <span id="edit-icon" style="cursor: pointer; margin-left: 10px;">✏️</span>
+                    <input type="file" id="image-upload" accept="image/*" style="display: none;" />
+                </div>
+                <ul>
+                    <p>&nbsp;------------------------------------------------------------------------------------</p>
+                    <li><a href="calc.html">Calculus</a></li>
+                    <li><a href="pps.html">PPS</a></li>
+                    <li><a href="bds.html">BDS</a></li>
+                    <li><a href="fwd.html">FWD</a></li>
+                    <li><a href="mae.html">MAE</a></li>
+                    <li><a href="eob.html">EOB</a></li>
+                    <li><a href="evs.html">EVS</a></li>
+                    <p>&nbsp;------------------------------------------------------------------------------------</p>
+                    <li><a href="calendar.html">Academic Calendar</a></li>
+                    <p>&nbsp;------------------------------------------------------------------------------------</p>
+                    <li><a href="login.html">Log Out</a></li>
+                </ul>
+            </div>
+            <div class="overlay" id="overlay"></div>
+        </nav>
+        <div class="papermarket" id="target-section">
+            <div class="headersearch">
+                <h1>Calculus</h1>
+                <p>Find and download past exam papers with ease!</p>
+            </div>
+        
+            <div class="search-bar">
+                <input type="text" id="search-bar" placeholder="Search for exam papers..." aria-label="Search papers">
+                <button id="search-button" type="button">Search</button>
+            </div>
+        
+            <div class="filters">
+                <select id="subject" aria-label="Select Subject">
+                    <option value="CAL">CALCULUS</option>
+                </select>
+                <select id="type" aria-label="Select Exam Type">
+                    <option value="">Select Paper Type</option>
+                    <option value="ClassWork">ClassWork Problems</option>
+                    <option value="Tutorial">Tutorial Problems</option>
+                    <option value="Assignment">Assignment</option>
+                    <option value="Mid-Term 1">Mid-Term 1</option>
+                    <option value="Mid-Term 2">Mid-Term 2</option>
+                    <option value="Term-End Paper">Term-End Paper</option>
+                </select>
+            </div>
+        
+            <div class="container" id="papers-grid">
+                <!-- Paper Cards will be dynamically inserted here -->
+            </div>
+        </div>
+        <div id="chatbotbtn" class="chatbotbutton">
+            <span id="button" class="material-symbols-outlined">chat</span>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $('#chatbotbtn').click(function(){
+                $('#chat').toggle();
+            });
+        });
+        const papers = [
+            { title: "Unit 1 Differential Calculus", subject: "CAL", type: "ClassWork", image: "media/calcfiles/unit1cwimage.jpg", pdf: "media/calcfiles/unit1_cw.pdf" },
+            { title: "Unit 1 Differential Calculus", subject: "CAL", type: "Tutorial", image: "media/calcfiles/unit1tutimg.jpg", pdf: "media/calcfiles/Unit 1_Revised Tutorial problems.pdf" },
+            { title: "Unit 2 Partial Differencaition", subject: "CAL", type: "ClassWork", image: "media/calcfiles/unit2cwimage.jpg", pdf: "media/calcfiles/unit2_sessionswise problems.pdf" },
+            { title: "Unit 1 Partial Differencaition", subject: "CAL", type: "Tutorial", image: "media/calcfiles/unit2tutimage.jpg", pdf: "media/calcfiles/unit2_tutorial problems.pdf" },
+            { title: "Unit 3 Integral Calculus", subject: "CAL", type: "ClassWork", image: "media/calcfiles/unit3cwimage.jpg", pdf: "media/calcfiles/Unit 3 Sessionwise Problems.pdf" },
+            { title: "Unit 3 Integral Calculus", subject: "CAL", type: "Tutorial", image: "media/calcfiles/unit3tutimage.jpg", pdf: "media/calcfiles/Unit 3 Tutorial Problems.pdf" },
+            { title: "Unit 4 Multiple Integrals", subject: "CAL", type: "ClassWork", image: "media/calcfiles/unit4cwimage.jpg", pdf: "media/calcfiles/Unit 4 Sessionwise Problems.pdf" },
+            { title: "Unit 1 Multiple Integrals", subject: "CAL", type: "Tutorial", image: "media/calcfiles/unit4tutimage.jpg", pdf: "media/calcfiles/Unit 4 Tutorial Problems.pdf" },
+            { title: "Unit 5 Vector Calculus", subject: "CAL", type: "ClassWork", image: "media/calcfiles/unit5cwimage.jpg", pdf: "media/calcfiles/Unit5 sessionwise problems.pdf" },
+            { title: "Unit 5 Vector Calculus", subject: "CAL", type: "Tutorial", image: "media/calcfiles/unit5tutimage1.jpg", pdf: "media/calcfiles/Unit5 tutorial problems_part 1.pdf" },
+            { title: "Unit 5 Vector Calculus", subject: "CAL", type: "Tutorial", image: "media/calcfiles/unit5tutimage2.jpg", pdf: "media/calcfiles/Unit5 tutorial problems_part 2.pdf" },
+            { title: "CAL M1 test QP-Set A and B", subject: "CAL", type: "Mid-Term 1", image: "media/calcfiles/m1calcimage.jpg", pdf: "media/calcfiles/M1 test QP- Set A and B.pdf" },
+            { title: "CAL M1 test QP-Set C and D", subject: "CAL", type: "Mid-Term 1", image: "media/calcfiles/m1calcimage.jpg", pdf: "media/calcfiles/M1 test QP- Set C and D (1) .pdf" },
+            { title: "CAL M1 test QP- Set E and F", subject: "CAL", type: "Mid-Term 1", image: "media/calcfiles/m1calcimage.jpg", pdf: "media/calcfiles/M1 test QP- Set E and F (1).pdf" },
+            { title: "CAL M2 test QP-Set A and B", subject: "CAL", type: "Mid-Term 2", image: "media/calcfiles/m1calcimage.jpg", pdf: "media/calcfiles/M2 solutions Set A and B (1).pdf" },
+            { title: "CAL Assignment 1", subject: "CAL", type: "Assignment", image: "media/calcfiles/calassimage.jpg", pdf: "media/calcfiles/Calculus_Assignment 1- 2024 (1).pdf" },
+        ];
+
+        function displayPapers(filteredPapers) {
+            const papersGrid = document.getElementById("papers-grid");
+            papersGrid.innerHTML = ""; // Clear previous results
+
+            // Ensure at most 6 items are displayed with placeholders if needed
+            const papersToDisplay = filteredPapers.slice(0, 10);
+
+            papersToDisplay.forEach(paper => {
+                const paperCard = document.createElement("div");
+                paperCard.classList.add("paper-card");
+                
+                paperCard.innerHTML = `
+                    <img src="${paper.image}" alt="${paper.title}">
+                    <h3>${paper.title}</h3>
+                    <p>Subject: ${paper.subject}</p>
+                    <p>Type: ${paper.type}</p>
+                    <button class="button" onclick="downloadFile('${paper.pdf}')">Download</button>
+                `;
+
+                papersGrid.appendChild(paperCard);
+            });
+        }
+
+        function applyFilters() {
+            const searchQuery = document.getElementById("search-bar").value.toLowerCase();
+            const subjectFilter = document.getElementById("subject").value;
+            const typeFilter = document.getElementById("type").value;
+
+            const filteredPapers = papers.filter(paper => {
+                const matchesSearch = paper.title.toLowerCase().includes(searchQuery);
+                const matchesSubject = subjectFilter ? paper.subject === subjectFilter : true;
+                const matchesType = typeFilter ? paper.type === typeFilter : true;
+                return matchesSearch && matchesSubject && matchesType;
+            });
+
+            displayPapers(filteredPapers);
+        }
+
+        function downloadFile(fileUrl) {
+            const link = document.createElement('a');
+            link.href = fileUrl;
+            link.download = fileUrl.split('/').pop(); // This will ensure the correct filename is used
+            link.click();
+        }
+
+        document.getElementById("search-button").addEventListener("click", applyFilters);
+        document.getElementById("subject").addEventListener("change", applyFilters);
+        document.getElementById("type").addEventListener("change", applyFilters);
+
+        // Initial display of all papers
+        displayPapers(papers);
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const username = localStorage.getItem("loggedInUser"); // Retrieve the logged-in username
+            const usernameDisplay = document.querySelector(".username");
+            const editIcon = document.getElementById("edit-icon");
+
+            if (username && usernameDisplay) {
+                usernameDisplay.textContent = username; // Display the saved username
+
+                // Load and display the saved profile image for the specific user
+                const savedImage = localStorage.getItem(`${username}_profileImage`);
+                const profileImage = document.getElementById("profile-image");
+                if (savedImage) {
+                    profileImage.src = savedImage; // Load saved image if it exists
+                }
+            }
+
+            const imageUpload = document.getElementById("image-upload");
+            const profileImage = document.getElementById("profile-image");
+
+            document.getElementById("edit-icon").addEventListener("click", function() {
+                imageUpload.click(); // Trigger file input on icon click
+            });
+
+            imageUpload.addEventListener("change", function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        // Show confirmation popup
+                        const confirmSave = confirm("Are you sure you want to save this image?");
+                        if (confirmSave) {
+                            profileImage.src = event.target.result; // Set the image source
+                            // Save image to localStorage with the username as part of the key
+                            localStorage.setItem(`${username}_profileImage`, event.target.result); 
+                        }
+                    }
+                    reader.readAsDataURL(file); // Read the file as a data URL
+                }
+            });
+        });
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <style>
+        /* Basic reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f2ef;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .profile-container {
+
+            width:100%;
+            max-width: 1000px;
+            height: 650px;
+            margin-top: 50px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Sidebar style for profile image */
+        .sidebar {
+            background-color: #0073b1;
+            color: white;
+            padding: 20px;
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-image {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .profile-image img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #ffffff;
+        }
+
+        .edit-image {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .profile-header h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .profile-header p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .profile-field {
+            margin-bottom: 15px;
+        }
+
+        .profile-field label {
+            font-weight: bold;
+            color: #333;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .profile-field input, .profile-field textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .profile-field textarea {
+            resize: vertical;
+            height: 60px;
+        }
+
+        .save-button {
+            background-color: #0073b1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            margin-top: 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .save-button:hover {
+            background-color: #005580;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <!-- Sidebar with Profile Image -->
+        <div class="sidebar">
+            <div class="profile-image">
+                <img id="profilePic" src="default-profile.png" alt="Profile Picture">
+                <button class="edit-image" onclick="editImage()">✏️</button>
+                <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="updateImage(event)">
+            </div>
+            <h2>Your Name</h2>
+            <p>Professional Tagline</p>
+        </div>
+
+        <!-- Content area with Profile Details -->
+        <div class="content">
+            <div class="profile-header">
+                <h1>Your Profile</h1>
+                <p>Complete your information</p>
+            </div>
+
+            <!-- Profile Fields -->
+            <div class="profile-field">
+                <label>Name</label>
+                <input type="text" id="name" placeholder="Enter your name">
+            </div>
+
+            <div class="profile-field">
+                <label>Email</label>
+                <input type="email" id="email" disabled>
+            </div>
+
+            <div class="profile-field">
+                <label>Branch</label>
+                <input type="text" id="branch" placeholder="Enter your branch">
+            </div>
+
+            <div class="profile-field">
+                <label>Course</label>
+                <input type="text" id="course" placeholder="Enter your course">
+            </div>
+
+            <div class="profile-field">
+                <label>Year</label>
+                <input type="text" id="year" placeholder="Enter your year">
+            </div>
+
+            <div class="profile-field">
+                <label>Description</label>
+                <textarea id="description" placeholder="Describe yourself"></textarea>
+            </div>
+
+            <!-- Save Button -->
+            <button class="save-button" onclick="saveProfile()">Save Profile</button>
+        </div>
+    </div>
+
+    <script>
+        // Load email from localStorage
+        document.getElementById("email").value = localStorage.getItem("loggedInUser") || "No email found";
+
+        // Function to edit profile picture
+        function editImage() {
+            document.getElementById("imageInput").click();
+        }
+
+        // Function to update the profile image when a new one is selected
+        function updateImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                document.getElementById("profilePic").src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        // Function to save profile details to localStorage
+        function saveProfile() {
+            const name = document.getElementById("name").value;
+            const branch = document.getElementById("branch").value;
+            const course = document.getElementById("course").value;
+            const year = document.getElementById("year").value;
+            const description = document.getElementById("description").value;
+
+            // Store profile data in localStorage
+            localStorage.setItem("profileName", name);
+            localStorage.setItem("profileBranch", branch);
+            localStorage.setItem("profileCourse", course);
+            localStorage.setItem("profileYear", year);
+            localStorage.setItem("profileDescription", description);
+
+            alert("Profile saved successfully!");
+        }
+
+        // Load saved profile data when page loads
+        window.onload = function() {
+            document.getElementById("name").value = localStorage.getItem("profileName") || "";
+            document.getElementById("branch").value = localStorage.getItem("profileBranch") || "";
+            document.getElementById("course").value = localStorage.getItem("profileCourse") || "";
+            document.getElementById("year").value = localStorage.getItem("profileYear") || "";
+            document.getElementById("description").value = localStorage.getItem("profileDescription") || "";
+        };
+    </script>
+</body>
+</html>

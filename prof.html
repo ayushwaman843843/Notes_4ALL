@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <script src="login,signup.js"></script>
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+        .hero {
+            height: 100vh;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 2%;
+            padding-right: 2%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        span {
+            color: violet;
+        }
+        video {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .mainbar ul li {
+            list-style-type: none;
+            display: inline-block;
+            padding: 10px 5px;
+        }
+        .mainbar ul li a {
+            font-size: 17px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            background-color: rgba(59, 25, 194, 0.7);
+            transition: background-color 0.3s;
+            padding: 12px;
+            border-radius: 15px;
+            border: 1px solid white;
+            font-family:Verdana, Geneva, Tahoma, sans-serif;
+        }
+        .mainbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+            color: rgb(59, 25, 194);
+            border: 2px solid rgb(59, 25, 194);
+        }
+        .navmenu{
+            cursor: pointer;
+            position: relative;
+            align-items: center;
+            background-color: gainsboro; 
+            border-radius: 10px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            border: 2px solid gainsboro;
+            transition: transform 0.3s ease;
+        }
+        .navmenu p{
+            font-weight: 1100;
+            color: black;
+            padding-left: 5px;
+            padding-bottom: 2px;
+        }
+        .sidebar {
+            position: fixed;
+            right: -350px; /* Initially hidden off-screen */
+            top: 0;
+            width: 350px; /* Default width */
+            height: 100%;
+            background: linear-gradient(135deg, #6a5acd, #00bfff); /* Gradient background */
+            color: white;
+            transition: right 0.3s ease;
+            padding-top: 30px;
+            z-index: 9;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Soft shadow for depth */
+        }
+
+        /* Hover effects for sidebar links */
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            border-radius: 10px;
+            padding: 15px;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth background and transform */
+        }
+
+        .sidebar ul li:hover {
+            background-color: rgba(255, 255, 255, 0.1); /* Light background on hover */
+            transform: translateX(5px); /* Slide effect on hover */
+        }
+
+        .sidebar ul li a {
+            font-family: 'Poppins',sans-serif;
+            border-radius: 10px;
+            font-size: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease; /* Smooth color transition */
+        }
+
+        .sidebar ul li a:hover {
+            color: #ff7f50; /* Change text color to coral on hover */
+            text-shadow: 0 0 5px rgba(255, 127, 80, 0.9); /* Text shadow for a glowing effect */
+        }
+
+        /* Sidebar open class */
+        .sidebar.open {
+            right: 0; /* Show sidebar */
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px; /* Reduced width on smaller screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 150px; /* Further reduced width on very small screens */
+            }
+        }
+
+        .sidebar ul li a:hover {
+            color: lightgray;
+        }
+
+        /* Sidebar open class */
+        .sidebar.open {
+            right: 0;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+            display: none; /* Initially hidden */
+            z-index: 8; /* Below the sidebar but above other content */
+        }
+
+        /* When the sidebar is open, show the overlay */
+        .sidebar.open + .overlay {
+            display: block; /* Show overlay when sidebar is open */
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+            display: none; /* Initially hidden */
+            z-index: 8; /* Below the sidebar but above other content */
+        }
+
+        /* When the sidebar is open, show the overlay */
+        .sidebar.open + .overlay {
+            display: block; /* Show overlay when sidebar is open */
+        }
+        button {
+            background-color: transparent;
+            border: 2px solid white;
+            padding: 10px 0px;
+            border-radius: 15px;
+            color: white;
+            cursor: pointer;
+        }
+        .cursor {
+            display: inline-block;
+            width: 15px;
+            height: 60px;
+            background-color: white;
+            animation: blink 0.8s infinite;
+        }
+        .chatbotbutton{
+            position: fixed;
+            top: 92%;
+            right: 5px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .chatbotbutton:hover{
+            transform: scale(1.1);
+        }
+        .chatbotbutton span{
+            position: absolute;
+            top: 20%;
+            right: 7px;
+            font-size: 35px;
+        }
+        .profile {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 10px;
+        }
+
+        .profile-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid white;
+        }
+
+        .username {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+        #edit-icon {
+            font-size: 20px; /* Adjust size as needed */
+            vertical-align: middle; /* Align with text */
+        }
+
+
+        .profile-container {
+            width: 50%;
+            margin: auto;
+            text-align: center;
+        }
+        .profile-photo {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+        }
+        .edit-icon {
+            cursor: pointer;
+        }
+        .input-field {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+        }
+    </style>
+
+</head>
+<body>
+    <video src="media/homepagevidbg.mp4" autoplay loop muted></video>
+    <div id="chat" class="chatbot">
+        <header>
+            <h2>Chatbot</h2>
+        </header>
+        <ul class="chatbox">
+            <li class="chat incoming">
+                <span class="material-symbols-outlined">smart_toy</span>
+                <p>Hi, how are you? 👋<br> How may I help you?</p>
+            </li>
+        </ul>
+        <div class="chat-input">
+            <textarea placeholder="Enter a message...." required></textarea>
+            <span class="material-symbols-outlined">send</span>
+        </div>
+    </div>
+    <div class="hero">
+        <nav>
+            <h2 class="logo" style="color: lightblue; font-size: 30px; font-family:Verdana, Geneva, Tahoma, sans-serif; letter-spacing: 2px;">
+                Notes <span style="font-family:Verdana, Geneva, Tahoma, sans-serif;">4ALL</span>
+            </h2>
+            <div class="mainbar">
+                <ul>
+                    <li><a href="index.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                    <li><a href="tt.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TimeTable&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                    <li><a href="examtt.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exam TT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                    <li><a href="attendance.html">&nbsp;&nbsp;&nbsp;Attendance Calc&nbsp;&nbsp;&nbsp;</a></li>
+                    <li><a href="todolist.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To-Do List&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                    <li><a href="contact.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contact&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                </ul>
+            </div>
+            <button class="navmenu" onclick="toggleSidebar()">
+                <p style="font-size: 40px;">☰</p>
+            </button>
+            <div class="sidebar">
+                <div class="profile">
+                    <img src="profile-placeholder.png" alt="Profile Image" class="profile-img" id="profile-image">
+                    <span class="username">Username</span> <!-- Placeholder for now -->
+                    <span id="edit-icon" style="cursor: pointer; margin-left: 10px;">✏️</span>
+                    <input type="file" id="image-upload" accept="image/*" style="display: none;" />
+                </div>
+                <ul>
+                    <p>&nbsp;-----------------------------------------------------------</p>
+                    <li><a href="calc.html">Calculus</a></li>
+                    <li><a href="pps.html">PPS</a></li>
+                    <li><a href="bds.html">BDS</a></li>
+                    <li><a href="fwd.html">FWD</a></li>
+                    <li><a href="mae.html">MAE</a></li>
+                    <li><a href="eob.html">EOB</a></li>
+                    <li><a href="evs.html">EVS</a></li>
+                    <p>&nbsp;-----------------------------------------------------------</p>
+                    <li><a href="calendar.html">Academic Calendar</a></li>
+                    <p>&nbsp;-----------------------------------------------------------</p>
+                    <li><a href="login.html">Log Out</a></li>
+                </ul>
+            </div>
+            <div class="overlay" id="overlay"></div>
+        </nav>
+        <div class="profile-container">
+            <h2>Profile</h2>
+    
+            <!-- Profile Photo Section -->
+            <img id="profile-image" class="profile-photo" src="default-avatar.png" alt="Profile Photo">
+            <input type="file" id="image-upload" style="display:none;">
+            <span id="edit-icon" class="edit-icon">🖉 Edit Photo</span>
+            
+            <!-- Editable Username -->
+            <div>
+                <label for="username">Name:</label>
+                <input type="text" id="username" class="input-field">
+            </div>
+    
+            <!-- Academic Records for 6 Years -->
+            <h3>Academic Records</h3>
+            <div id="records">
+                <!-- Records for each year -->
+                <div class="year-record" id="year-1">
+                    <h4>Year 1</h4>
+                    <label>Midterm 1 Marks: <input type="number" class="input-field" id="midterm1-year1"></label>
+                    <label>Midterm 2 Marks: <input type="number" class="input-field" id="midterm2-year1"></label>
+                    <label>Term End Marks: <input type="number" class="input-field" id="termend-year1"></label>
+                    <label>GPA: <input type="number" class="input-field" id="gpa-year1" step="0.01"></label>
+                </div>
+                <!-- Repeat for other years... -->
+                <!-- You can duplicate the above div and change the ids for Year 2, Year 3, etc. -->
+                
+                <div class="year-record" id="aggregate">
+                    <h4>Overall</h4>
+                    <label>CGPA: <input type="number" class="input-field" id="cgpa" step="0.01"></label>
+                </div>
+            </div>
+    
+            <button id="save-profile">Save Profile</button>
+        </div>
+        <div id="chatbotbtn" class="chatbotbutton">
+            <span id="button" class="material-symbols-outlined">chat</span>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#chatbotbtn").click(function () {
+                $("#chat").toggle();
+            });
+        });
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            const username = localStorage.getItem("loggedInUser"); // Retrieve using "loggedInUser" key
+            const usernameDisplay = document.querySelector(".username");
+            const editIcon = document.getElementById("edit-icon");
+
+            if (username && usernameDisplay) {
+                usernameDisplay.textContent = username; // Display the saved username
+            }
+
+            // Load and display the saved profile image if it exists
+            const imageUpload = document.getElementById("image-upload");
+            const profileImage = document.getElementById("profile-image");
+
+            // Check if there's a saved profile image in localStorage
+            const savedImage = localStorage.getItem("profileImage");
+            if (savedImage) {
+                profileImage.src = savedImage; // Load saved image if it exists
+            }
+
+            document.getElementById("edit-icon").addEventListener("click", function() {
+                imageUpload.click(); // Trigger file input on icon click
+            });
+
+            imageUpload.addEventListener("change", function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        // Show confirmation popup
+                        const confirmSave = confirm("Are you sure you want to save this image?");
+                        if (confirmSave) {
+                            profileImage.src = event.target.result; // Set the image source
+                            localStorage.setItem("profileImage", event.target.result); // Save image to localStorage
+                        }
+                    }
+                    reader.readAsDataURL(file); // Read the file as a data URL
+                }
+            });
+        });
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Load and display saved profile photo, name, and academic records
+            const profileImage = document.getElementById("profile-image");
+            const savedImage = localStorage.getItem("profileImage");
+            const usernameInput = document.getElementById("username");
+            const savedUsername = localStorage.getItem("username");
+
+            if (savedImage) {
+                profileImage.src = savedImage;
+            }
+            if (savedUsername) {
+                usernameInput.value = savedUsername;
+            }
+
+            // Load academic records
+            for (let year = 1; year <= 6; year++) {
+                document.getElementById(`midterm1-year${year}`).value = localStorage.getItem(`midterm1-year${year}`) || '';
+                document.getElementById(`midterm2-year${year}`).value = localStorage.getItem(`midterm2-year${year}`) || '';
+                document.getElementById(`termend-year${year}`).value = localStorage.getItem(`termend-year${year}`) || '';
+                document.getElementById(`gpa-year${year}`).value = localStorage.getItem(`gpa-year${year}`) || '';
+            }
+            document.getElementById("cgpa").value = localStorage.getItem("cgpa") || '';
+
+            // Edit profile image
+            document.getElementById("edit-icon").addEventListener("click", function() {
+                document.getElementById("image-upload").click();
+            });
+            document.getElementById("image-upload").addEventListener("change", function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        if (confirm("Are you sure you want to save this image?")) {
+                            profileImage.src = event.target.result;
+                            localStorage.setItem("profileImage", event.target.result);
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Save Profile
+            document.getElementById("save-profile").addEventListener("click", function () {
+                // Save name
+                const username = usernameInput.value;
+                localStorage.setItem("username", username);
+
+                // Save academic records for each year
+                for (let year = 1; year <= 6; year++) {
+                    localStorage.setItem(`midterm1-year${year}`, document.getElementById(`midterm1-year${year}`).value);
+                    localStorage.setItem(`midterm2-year${year}`, document.getElementById(`midterm2-year${year}`).value);
+                    localStorage.setItem(`termend-year${year}`, document.getElementById(`termend-year${year}`).value);
+                    localStorage.setItem(`gpa-year${year}`, document.getElementById(`gpa-year${year}`).value);
+                }
+
+                // Save overall CGPA
+                const cgpa = document.getElementById("cgpa").value;
+                localStorage.setItem("cgpa", cgpa);
+
+                alert("Profile saved successfully!");
+            });
+        });
+    </script>
+</body>
+</html>

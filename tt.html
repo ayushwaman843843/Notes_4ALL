@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-850px">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Div_B_TimeTable</title>
+    <script src="script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        video {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .heading{
+            color: white;
+            font-size: 30px ;
+            padding: 0;
+            margin-top: 0;
+            text-align: center;
+        }
+        .heading h1{
+            padding: 0;
+            margin-top: 15px;
+        }
+        .tt{
+            margin-top: -10px;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            height: 700px;
+            margin-bottom: 0px;
+            
+        }
+        table tr th{
+            background-color: rgba(0,0,0,0.3);
+        }
+        table {
+            border: 1px solid white;
+            color: white;
+            border-collapse: collapse; 
+            margin-bottom: 0;
+        }
+        .greys {
+            background-color: rgba(255, 255, 255, 0.5);
+            color: black;
+        }
+        th, td {
+            width: calc(100% / 13);
+            text-align: center;
+            border: 1px solid white; 
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        th:hover {
+            transform: scale(1.1);
+            background-color: white;
+            color: black;
+            border: 1px solid #111;
+        }
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 0px;
+            padding-bottom: 0px;
+            padding-left: 2%;
+            padding-right: 2%;
+            height: 60px;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        span {
+            color: violet;
+        }
+
+        .mainbar ul li {
+            list-style-type: none;
+            display: inline-block;
+            padding: 10px 5px;
+        }
+        .mainbar ul li a {
+            font-size: 17px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            background-color: rgba(59, 25, 194, 0.7);
+            transition: background-color 0.3s;
+            padding: 12px;
+            border-radius: 15px;
+            border: 1px solid white;
+            font-family:Verdana, Geneva, Tahoma, sans-serif;
+        }
+        .mainbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+            color: rgb(59, 25, 194);
+            border: 2px solid rgb(59, 25, 194);
+        }
+        .navmenu{
+            cursor: pointer;
+            position: relative;
+            align-items: center;
+            background-color: gainsboro; 
+            border-radius: 10px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            border: 2px solid gainsboro;
+            transition: transform 0.3s ease;
+        }
+        .navmenu p{
+            font-weight: 1100;
+            color: black;
+            padding-left: 5px;
+            padding-bottom: 2px;
+        }
+        .sidebar {
+            font-family: 'Poppins',sans-serif;
+            position: fixed;
+            right: -350px; /* Initially hidden off-screen */
+            top: 0;
+            width: 350px; /* Default width */
+            height: 100%;
+            background: linear-gradient(135deg, #6a5acd, #00bfff); /* Gradient background */
+            color: white;
+            transition: right 0.3s ease;
+            padding-top: 30px;
+            z-index: 9;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Soft shadow for depth */
+        }
+
+        /* Hover effects for sidebar links */
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            border-radius: 10px;
+            padding: 12px;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth background and transform */
+        }
+
+        .sidebar ul li:hover {
+            background-color: rgba(255, 255, 255, 0.1); /* Light background on hover */
+            transform: translateX(5px); /* Slide effect on hover */
+        }
+
+        .sidebar ul li a {
+            font-family: 'Poppins',sans-serif;
+            border-radius: 10px;
+            font-size: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease; /* Smooth color transition */
+        }
+
+        .sidebar ul li a:hover {
+            color: #ff7f50; /* Change text color to coral on hover */
+            text-shadow: 0 0 5px rgba(255, 127, 80, 0.9); /* Text shadow for a glowing effect */
+        }
+
+        /* Sidebar open class */
+        .sidebar.open {
+            right: 0; /* Show sidebar */
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px; /* Reduced width on smaller screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 150px; /* Further reduced width on very small screens */
+            }
+        }
+
+        .sidebar ul li a:hover {
+            color: lightgray;
+        }
+
+        /* Sidebar open class */
+        .sidebar.open {
+            right: 0;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+            display: none; /* Initially hidden */
+            z-index: 8; /* Below the sidebar but above other content */
+        }
+
+        /* When the sidebar is open, show the overlay */
+        .sidebar.open + .overlay {
+            display: block; /* Show overlay when sidebar is open */
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+            display: none; /* Initially hidden */
+            z-index: 8; /* Below the sidebar but above other content */
+        }
+
+        /* When the sidebar is open, show the overlay */
+        .sidebar.open + .overlay {
+            display: block; /* Show overlay when sidebar is open */
+        }
+        .profile {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 10px;
+        }
+
+        .profile-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid white;
+        }
+
+        .username {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+        #edit-icon {
+            font-size: 20px; /* Adjust size as needed */
+            vertical-align: middle; /* Align with text */
+        }
+        button {
+            background-color: transparent;
+            border: 2px solid white;
+            padding: 10px 0px;
+            border-radius: 15px;
+            color: white;
+            cursor: pointer;
+        }
+        .accdetails {
+            position: absolute;
+            right: 2.1%;
+            height: 30px;
+            text-align: center;
+            width: 200px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding-top: 5px;
+            color: black;
+            margin-top: 0.5%;
+            display: none;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .close {
+            color: red;
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+        }
+        .popup-container {
+            display: none;
+             /* Hidden by default */
+            position: fixed; /* Stay in place */
+            left: 0; /* Align to the left */
+            top: 25%; /* Adjust vertical position */
+            left: 1%;
+            width: 200px;
+            border-radius: 25px;
+            height: auto; /* Set width of the popup */
+            padding: 20px; /* Add padding */
+            background-color: rgba(255, 255, 255, 0.8); /* White background */
+            border: 1px solid #ccc; /* Light border */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+            z-index: 1000; /* Ensure it appears above other content */
+        }
+        .popup-container h2{
+            margin-top: -10px;
+        }
+
+        .popup-content {
+            text-align: center; /* Center the text */
+        }
+
+        .popup-image {
+            border: 2px solid black;
+            border-radius:15px ;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            width: 100%; /* Responsive image */
+            height: auto; /* Maintain aspect ratio */
+        }
+        .popup-container p{
+            margin-top: -5px;
+        }
+
+        #close-btn {
+            background-color: rgb(59, 25, 194);
+            padding-top: 8px;
+            z-index: 1000;
+            padding-bottom: 8px;
+            padding-left: 20px;
+            padding-right: 20px;
+            margin-top: -10px; /* Space above the button */
+        }
+    </style>
+</head>
+<body>
+    <video src="media/homepagevidbg.mp4" autoplay loop muted></video>
+    <div class="hero">
+        <nav>
+            <h2 class="logo" style=" font-size: 30px; font-family:Verdana, Geneva, Tahoma, sans-serif; letter-spacing: 2px;">
+                <a href="index.html" style="text-decoration: none; color: lightblue;">Notes <span style="font-family:Verdana, Geneva, Tahoma, sans-serif;">4ALL</span></a>
+            </h2>
+            <div class="mainbar">
+                <ul>
+                    <li><a href="index.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                    <li><a href="tt.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TimeTable&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                    <li><a href="examtt.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exam TT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                    <li><a href="attendance.html">&nbsp;&nbsp;&nbsp;Attendance Calc&nbsp;&nbsp;&nbsp;</a></li>
+                    <li><a href="todolist.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To-Do List&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                    <li><a href="contact.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contact&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                </ul>
+            </div>
+            <button class="navmenu" onclick="toggleSidebar()">
+                <p style="font-size: 40px;">☰</p>
+            </button>
+            <div class="sidebar">
+                <div class="profile">
+                    <img src="profile-placeholder.png" alt="Profile Image" class="profile-img" id="profile-image">
+                    <span class="username">Username</span> <!-- Placeholder for now -->
+                    <span id="edit-icon" style="cursor: pointer; margin-left: 10px;">✏️</span>
+                    <input type="file" id="image-upload" accept="image/*" style="display: none;" />
+                </div>
+                <ul>
+                    <p>&nbsp;---------------------------------------------------------------</p>
+                    <li><a href="calc.html">Calculus</a></li>
+                    <li><a href="pps.html">PPS</a></li>
+                    <li><a href="bds.html">BDS</a></li>
+                    <li><a href="fwd.html">FWD</a></li>
+                    <li><a href="mae.html">MAE</a></li>
+                    <li><a href="eob.html">EOB</a></li>
+                    <li><a href="evs.html">EVS</a></li>
+                    <p>&nbsp;---------------------------------------------------------------</p>
+                    <li><a href="calendar.html">Academic Calendar</a></li>
+                    <p>&nbsp;---------------------------------------------------------------</p>
+                    <li><a href="login.html">Log Out</a></li>
+                </ul>
+            </div>
+            <div class="overlay" id="overlay"></div>
+        </nav>
+        <div class="tt">
+            <table border="1" cellspacing="0" cellpadding="15">
+                <tr>
+                    <th colspan="14" bgcolor="transparent">TIMETABLE</th>
+                </tr>
+                <tr>
+                    <th bgcolor="white">TIME-DAY</th>
+                    <th colspan="2" bgcolor="blue">MONDAY</th>
+                    <th colspan="2" bgcolor="white">TUESDAY</th>
+                    <th colspan="2" bgcolor="white">WEDNESDAY</th>
+                    <th colspan="2" bgcolor="white">THURSDAY</th>
+                    <th colspan="2" bgcolor="white">FRIDAY</th>
+                    <th colspan="2" bgcolor="white">SATURDAY</th>
+                    <th bgcolor="white">SUNDAY</th>
+                </tr>
+                <tr>
+                    <th bgcolor="white">8-9am</th>
+                    <th rowspan="2" class="greys" bgcolor="grey" onclick="showLectureDetails('BDS-B1', 'Lecture in CL-404' ,'Prof.Khushbu Chauhan')">BDS-B1<br>CL-404</th>
+                    <th rowspan="2" class="greys" bgcolor="grey" onclick="showLectureDetails('PPS-B2', 'Lecture in CL-402' ,'Prof.Krishna Samdani')">PPS-B2<br>CL-402</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('FWD', 'Lecture in CR-401' ,'Prof.Rojal Rodriguez')">FWD<br>CR-401</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('', '' ,'NOTHING FOR NOW')"></th>
+                    <th rowspan="2" class="greys" bgcolor="grey" onclick="showLectureDetails('PPS-B1', 'Lecture in CL-404' ,'Prof.Krishna Samdani')">PPS-B1<br>CL-404</th>
+                    <th rowspan="2" class="greys" bgcolor="grey" onclick="showLectureDetails('FWD-B2', 'Lecture in CL-403' ,'Prof.Ganesh Bhagvat')">FWD-B2<br>CL-403</th>
+                    <th rowspan="2" class="greys" bgcolor="grey" onclick="showLectureDetails('BDS-B1', 'Lecture in CL-705' ,'Prof.Krishna Samdani')">PPS-B1<br>CL-705</th>
+                    <th rowspan="2" class="greys" bgcolor="grey" onclick="showLectureDetails('FWD-B2', 'Lecture in CL-404' ,'Prof.Ganesh Bhagvat')">FWD-B2<br>CL-404</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('Calculus', 'Lecture in CR-403' ,'Prof.Minirani')">CAL<br>CR-403</th>
+                    <th bgcolor="white" onclick="showLectureDetails('', '' ,'Nothing For Now')"></th>
+                </tr>
+                <tr>
+                    <th bgcolor="white">9-10am</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('FWD', 'Lecture in CR-401' ,'Prof.Rojal Rodriguez')">FWD<br>CR-401</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('', '' ,'NOTHING FOR NOW')"></th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('BDS', 'Lecture in CR-401' ,'Prof.Khushbu Chauhan')">BDS<br>CR-401</th>
+                    <th bgcolor="white" onclick="showLectureDetails('', '' ,'NOTHING FOR NOW')"></th>
+                </tr>
+                <tr>
+                    <th bgcolor="white">10-11am</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('PPS', 'Lecture in CR-401' ,'Prof.Payal Mishra')">PPS<br>CR-401</th>
+                    <th rowspan="2" class="greys" bgcolor="grey" onclick="showLectureDetails('PPS-B2', 'Lecture in CL-705' ,'Prof.Krishna Samdani')">PPS-B2<br>CL-705</th>
+                    <th rowspan="2" class="greys" bgcolor="grey" onclick="showLectureDetails('FWD-B1', 'Lecture in CL-404' ,'Prof.Rojal Rodriguez')">FWD-B1<br>CL-404</th>
+                    <th rowspan="2" class="greys" bgcolor="grey" onclick="showLectureDetails('BDS-B2', 'Lecture in CL-403' ,'Prof.Khushbu Chauhan')">BDS-B2<br>CL-403</th>
+                    <th rowspan="2" class="greys" bgcolor="grey" onclick="showLectureDetails('FWD-B1', 'Lecture in CL-404' ,'Prof.Rojal Rodriguez')">FWD-B1<br>CL-404</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('PPS', 'Lecture in CR-306' ,'Prof.Payal Mishra')">PPS<br>CR-306</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('Calculus', 'Lecture in CR-403' ,'Prof.Minirani')">CAL<br>CR-403</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('Critical Thinking', 'Lecture in CR-403' ,'Prof.idkbrosname')">CT<br>CR-403</th>
+                    <th bgcolor="white" onclick="showLectureDetails('', '' ,'NOTHING FOR NOW')"></th>
+                </tr>
+                <tr>
+                    <th bgcolor="white">11-12pm</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('BDS', 'Lecture in CR-401' ,'Prof.Khushbu Chauhan')">BDS<br>CR-401</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('', '' ,'BREAK')">BREAK</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('Critical Thinking', 'Lecture in CR-403' ,'Prof.idkbrosname')">CT<br>CR-403</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('', '' ,'NOTHING FOR NOW')"></th>
+                    <th bgcolor="white" onclick="showLectureDetails('', '' ,'NOTHING FOR NOW')"></th>
+                </tr>
+                <tr>
+                    <th bgcolor="white">12-1pm</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('', '' ,'BREAK')">BREAK</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('', '' ,'BREAK')">BREAK</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('', '' ,'BREAK')">BREAK</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('Calculus', 'Lecture in CR-401' ,'Prof.Minirani')">CAL<br>CR-401</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('', '' ,'BREAK')">BREAK</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('', '' ,'NOTHING FOR NOW')"></th>
+                    <th bgcolor="white" onclick="showLectureDetails('', '' ,'NOTHING FOR NOW')"></th>
+                </tr>
+                <tr>
+                    <th bgcolor="white">1-2pm</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('EOB', 'Lecture in CR-307' ,'Prof.Bhakti Bapat')">EOB<br>CR-307</th>
+                    <th colspan="2" rowspan="2" bgcolor="white" onclick="showLectureDetails('EOB', 'Lecture in CR-307' ,'Prof.Bhakti Bapat')">EOB<br>CR-403</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('BDS', 'Lecture in CR-401' ,'Prof.Khushbu Chauhan')">BDS<br>CR-401</th>
+                    <th bgcolor="grey" class="greys" onclick="showLectureDetails('Calculus-B1', 'Lecture in CR-407' ,'Prof.Minirani')">CAL-B1<br>CR-407</th>
+                    <th bgcolor="grey" class="greys" onclick="showLectureDetails('EVS-B2', 'Lecture in CR-401' ,'Prof.Preeti Shrivastava')">ES-B2<br>CR-401</th>
+                    <th colspan="2" bgcolor="grey" class="greys" onclick="showLectureDetails('Calculus-B2', 'Lecture in CR-306' ,'Prof.Minirani')">CAL-B2<br>CR-306</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('', '' ,'NOTHING FOR NOW')"></th>
+                    <th bgcolor="white" onclick="showLectureDetails('', '' ,'NOTHING FOR NOW')"></th>
+                </tr>
+                <tr>
+                    <th bgcolor="white">2-3pm</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('EVS', 'Lecture in CR-307' ,'Prof.Preeti Shrivastava')">ES<br>CR-307</th>
+                    <th colspan="2" rowspan="2" bgcolor="white" onclick="showLectureDetails('MAE', 'Lecture in CR-407' ,'Prof.Sanjay Kumar')">MAE<br>CR-307</th>
+                    <th colspan="2" bgcolor="grey" onclick="showLectureDetails('EVS-B2', 'Lecture in CR-401' ,'Prof.Preeti Shrivastava')">ES-B1<br>CR-401</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('', '' ,'NOTHING FOR NOW')"></th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('', '' ,'NOTHING FOR NOW')"></th>
+                    <th bgcolor="white"></th>
+                </tr>
+                <tr>
+                    <th bgcolor="white">3-4pm</th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('', '' ,'NOTHING FOR NOW')"></th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('', '' ,'NOTHING FOR NOW')"></th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('', '' ,'NOTHING FOR NOW')"></th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('', '' ,'NOTHING FOR NOW')"></th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('', '' ,'NOTHING FOR NOW')"></th>
+                    <th colspan="2" bgcolor="white" onclick="showLectureDetails('', '' ,'NOTHING FOR NOW')"></th>
+                </tr>
+            </table>
+            <div id="lectureModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <h3 id="lectureTitle"></h3>
+                    <p id = "profDetails"></p>
+                    <p id="lectureDetails"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup-container" id="popup">
+        <div class="popup-content">
+            <h2>Check Out Exam Paper Market</h2>
+            <img src="/media/calcfiles/m1calc1.jpg" alt="Exam Paper" class="popup-image">
+            <p>Calculus Mid-Term 1 Paper</p>
+            <p style="color: gray;">Subject : Calculus</p>
+            <p style="color: gray;">Paper : Mid-Term 1</p>
+            <button id="close-btn">Close</button>
+            <button id="check-btn" style="background-color: rgb(59, 25, 194);padding-top: 8px;
+            z-index: 1000;
+            padding-bottom: 8px;
+            padding-left: 20px;
+            padding-right: 20px;">Check Out</button>
+        </div>
+    </div>
+    <script>
+        function showLectureDetails(title, details , prof) {
+            console.log("Modal triggered for:", title); 
+            document.getElementById("lectureTitle").textContent = title;
+            document.getElementById("profDetails").textContent = prof;
+            document.getElementById("lectureDetails").textContent = details;
+            document.getElementById("lectureModal").style.display = "flex";
+        }
+        function closeModal() {
+            document.getElementById("lectureModal").style.display = "none";
+        }
+        window.onload = function() {
+            function showPopup() {
+                document.getElementById('popup').style.display = 'block'; // Show the popup
+            }
+
+            function closePopup() {
+                document.getElementById('popup').style.display = 'none'; // Hide the popup
+            }
+
+            // Show the popup after 20 seconds
+            setTimeout(showPopup, 20000); 
+
+            // Close button event listener
+            document.getElementById('close-btn').onclick = closePopup;
+
+            // jQuery document ready function to handle the check button click
+            $('#check-btn').click(function(){
+                window.location.href = 'index.html#target-section'; // Redirect to target section
+                closePopup(); // Close the popup
+            });
+        };
+
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar'); // Use querySelector for a class
+            sidebar.classList.toggle('open');
+        }
+
+        document.addEventListener('click', (event) => {
+            const sidebar = document.querySelector('.sidebar'); // Use querySelector for a class
+            const navMenu = document.querySelector('.navmenu');
+            
+            if (!sidebar.contains(event.target) && !navMenu.contains(event.target)) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const username = localStorage.getItem("loggedInUser"); // Retrieve the logged-in username
+            const usernameDisplay = document.querySelector(".username");
+            const editIcon = document.getElementById("edit-icon");
+
+            if (username && usernameDisplay) {
+                usernameDisplay.textContent = username; // Display the saved username
+
+                // Load and display the saved profile image for the specific user
+                const savedImage = localStorage.getItem(`${username}_profileImage`);
+                const profileImage = document.getElementById("profile-image");
+                if (savedImage) {
+                    profileImage.src = savedImage; // Load saved image if it exists
+                }
+            }
+
+            const imageUpload = document.getElementById("image-upload");
+            const profileImage = document.getElementById("profile-image");
+
+            document.getElementById("edit-icon").addEventListener("click", function() {
+                imageUpload.click(); // Trigger file input on icon click
+            });
+
+            imageUpload.addEventListener("change", function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        // Show confirmation popup
+                        const confirmSave = confirm("Are you sure you want to save this image?");
+                        if (confirmSave) {
+                            profileImage.src = event.target.result; // Set the image source
+                            // Save image to localStorage with the username as part of the key
+                            localStorage.setItem(`${username}_profileImage`, event.target.result); 
+                        }
+                    }
+                    reader.readAsDataURL(file); // Read the file as a data URL
+                }
+            });
+        });
+    </script>
+</body>
+</html>

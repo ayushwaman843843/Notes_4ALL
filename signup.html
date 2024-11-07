@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="login,signup.js"></script>
+    <title>Notes_4ALL_Signup</title>
+    <title></title>
+    <style>
+        *{
+            font-family: 'Poppins',sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            overflow: hidden;
+        }
+        video{
+            position: relative;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .login-box{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            padding: 40px;
+            transform: translate(-50%,-50%);
+            background-color: rgba(165,165,165,0.2);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,255,255,0.1);
+            box-sizing: border-box;
+            border-radius: 2em;
+        }
+        .login-box h2{
+            margin: 0 0 30px;
+            padding: 0;
+            columns: white;
+            text-align: center;
+        }
+        .login-box .user-box{
+            position: relative;
+        }
+        .login-box .user-box input{
+            width: 100%;
+            padding: 10px 0;
+            font-size: 15px;
+            color: white;
+            margin-bottom: 30px;
+            border: none;
+            border-bottom: 1px solid white;
+            outline: none;
+            background-color: transparent;
+        }
+        .login-box .user-box label{
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 10px 0;
+            font-size: 16px;
+            color: white;
+            pointer-events: none;
+            transition: 0.5s ease;
+        }
+        .login-box .user-box input:focus ~ label,
+        .login-box .user-box input:valid ~ label{
+            top: -20px;
+            left: 0;
+            color:white;
+            font-size: 12px;
+        }
+        .login-box .sub{
+            margin: 0 auto;
+            position: relative;
+            display: inline-block;
+            padding: 10px 120px;
+            color: black;
+            font-size: 17px;
+            background-color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            text-transform: uppercase;
+            overflow: hidden;
+            transition: 0.5s ease;
+            margin-top: 30px;
+            letter-spacing: 5px;
+            border: 2px solid wheat;
+        }
+        .login-box .login{
+            color: white;
+            font-size: 14px;
+            margin-left: 44%;
+            
+        }
+        .login-box form a:hover{
+            background-color: transparent;
+            color: white;
+        }
+        .remember{
+            color: white;
+            font-size: 17px;
+        }
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0, 0, 0, 0.8); /* Dark background with opacity */
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .modal-content {
+            background-color: white; /* Modal content background */
+            margin: 15% auto; 
+            padding: 20px;
+            border: 1px solid #888; 
+            width: 80%; 
+            max-width: 400px; 
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #modal-button {
+            margin-top: 30px;
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
+<body>
+    <video src="media/videobg.mp4" autoplay loop muted></video>
+    <div class="login-box">
+        <form action="submit">
+            <div class="user-box">
+                <input type="text" id="username" required>
+                <label for="Username" >Username</label>
+            </div>
+            <div class="user-box">
+                <input type="password"  id="password" required>
+                <label for="Password" >Password</label>
+            </div>
+            <div class="remember">
+                <input type="checkbox">Remember Me
+                <a class="login" href="login.html">Login ?</a>
+            </div>
+            <a class="sub" id="submit-button" href="#" onclick="return addacc()">Submit</a>
+        </form>
+    </div>
+    <div id="success-modal" class="modal">
+        <div class="modal-content">
+            <span class="close"><a href="login.html" style="text-decoration: none;">&times;</a></span>
+            <p id="modal-message" style="margin-bottom: 30px; font-family: 'Poppins',sans-serif;"></p>
+            <a href="login.html" id="modal-button" style="text-decoration: none;">Ok</a>
+        </div>
+    </div>
+</body>
+</html>
